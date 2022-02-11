@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.IO.Ports;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 
 namespace settingXBee
@@ -18,15 +19,12 @@ namespace settingXBee
     public partial class Form1 : Form
     {
         bool isConCOM = false;
-        bool waitCallBack = false;
         int[] BD = new int[] {9600,115200,1200,2400,4800,19200,38400,57600,230400};
 
         string prid_RE = @"[a-zA-Z0-9]{6}";
-        string panid_RE = @"[0-9]{3}";
+        string panid_RE = @"[1-9]{1}[0-9]{2}";
         string characters = @"ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         string node_id;
-
-        static string flagment = "";
 
         public Form1()
         {
@@ -110,10 +108,8 @@ namespace settingXBee
         {
             if(checkBox1.Checked == true)
             {
-                label1.Text = "PAN and IM ID:";
                 label2.Text = "設置建物名:";
                 textBox2.Enabled = true;
-                textBox3.Enabled = true;
                 checkBox2.Checked = false;
                 checkBox3.Checked = false;
             }
@@ -123,9 +119,7 @@ namespace settingXBee
         {
             if(checkBox2.Checked == true)
             {
-                label1.Text = "";
                 label2.Text = "";
-                textBox3.Enabled = false;
                 textBox2.Enabled = false;
                 checkBox1.Checked = false;
                 checkBox3.Checked = false;
@@ -136,10 +130,8 @@ namespace settingXBee
         {
             if(checkBox3.Checked == true)
             {
-                label1.Text = "PAN and IM ID:";
                 label2.Text = "センサ設置位置:";
                 textBox2.Enabled = true;
-                textBox3.Enabled = true;
                 checkBox1.Checked = false;
                 checkBox2.Checked = false;
             }
@@ -179,44 +171,46 @@ namespace settingXBee
                         FileStream sen = File.Create(root + "\\sensor.csv");
                         rtb("フォルダが存在しません\n新しく作製します\n");
                     }
+                    try
+                    {
+                        if (checkBox1.Checked == true)
+                        {
+                            using (StreamWriter sw = new StreamWriter(@"data\" + textBox1.Text + "\\bld.csv", true, Encoding.GetEncoding("shift_jis")))
+                            {
+                                sw.WriteLine(textBox3.Text + "," + textBox2.Text + ",2,0,0");
+                            }
+                        }
+                        else if (checkBox3.Checked == true)
+                        {
+                            using (StreamWriter sw = new StreamWriter(@"data\" + textBox1.Text + "\\sensor.csv", true, Encoding.GetEncoding("shift_jis")))
+                            {
+                                sw.WriteLine(node_id + "," + textBox2.Text + "," + textBox3.Text);
+                            }
+                        }
+                        else { }
+                        rtb("ファイル書き込み完了\n");
+                    }
+                    catch {
+                        rtb("ファイル書き込み失敗...\n");
+                    }
 
                     if (Regex.IsMatch(textBox3.Text,panid_RE) &(textBox3.Text.Length < 4))
                     {
-                        try
-                        {
-                            if (checkBox1.Checked == true)
-                            {
-                                using (StreamWriter sw = new StreamWriter(@"data\" + textBox1.Text + "\\bld.csv", true, Encoding.GetEncoding("shift_jis")))
-                                {
-                                    sw.WriteLine(textBox3.Text + "," + textBox2.Text + ",2,0,0");
-                                }
-                            }
-                            else if (checkBox3.Checked == true)
-                            {
-                                using (StreamWriter sw = new StreamWriter(@"data\" + textBox1.Text + "\\sensor.csv", true, Encoding.GetEncoding("shift_jis")))
-                                {
-                                    sw.WriteLine(node_id + "," + textBox2.Text + "," + textBox3.Text);
-                                }
-                            }
-                            else { }
-                            rtb("ファイル書き込み完了\n");
-                        }
-                        catch { }
                         if((checkBox1.Checked ^ checkBox2.Checked ^ checkBox3.Checked) & textBox3.Text.Length < 14)
                         {
                             rtb("XBee3と仮想シリアル通信を開始\n");
-                            //testXBee();
-                            //rebootXBee();
-                            //settingXBee();
+                            settingXBee();
+                            
                         }
                         else
                         {
                             rtb("XBeeのロールが選択されていないか\n建物かセンサの名前が長すぎます\n");
                         }
+
                     }
                     else
                     {
-                        rtb("PAN IDは000から999までが使用可能です\n確認してください\n");
+                        rtb("PAN IDは100から999までが使用可能です\n確認してください\n");
                     }
                 }
                 else
@@ -230,84 +224,24 @@ namespace settingXBee
             }
         }
 
-        delegate void SetTextCallBack(string text);
-        private void res(string text)
-        {
-            if (richTextBox1.InvokeRequired)
-            {
-                SetTextCallBack d = new SetTextCallBack(res);
-                BeginInvoke(d, new object[] { text });
-            }
-            else
-            {
-                if (text.Contains("\r\n")){
-                    if (flagment != "")
-                    {
-                        text = flagment + text;
-                        flagment = "";
-                    }
-                    richTextBox1.Focus();
-                    richTextBox1.AppendText(text);
-
-                    if (text.Contains("OK"))
-                    {
-                        waitCallBack = false;
-                    }
-
-                }
-                else
-                {
-                    flagment += text;
-                }
-            }
-        }
-
         private void rtb(string x)
         {
             richTextBox1.Focus();
             richTextBox1.AppendText(x);
         }
 
-        private void testXBee()
-        {
-            setFlagAndWrite("+++");
-            while(waitCallBack == true) { }
-            setFlagAndWrite("AT\r");
-            while(waitCallBack == true) { }
-            serialPort1.Write("ATCN\r");
-        }
-        private void rebootXBee()
-        {
-            setFlagAndWrite("+++\r");
-            while(waitCallBack == true) { }
-            serialPort1.Write("ATWR\r");
-            serialPort1.Write("ATBD7\r");
-            serialPort1.Write("ATCN\r");
-            try
-            {
-                serialPort1.DiscardInBuffer();
-                serialPort1.DiscardOutBuffer();
-                serialPort1.Close();
-                serialPort1.BaudRate = 115200;
-                serialPort1.Open();
-                rtb("XBee再起動，COM再接続完了\nボーレートを115200に変更\n");
-            }
-            catch
-            {
-                rtb("再接続時にエラー\n");
-            }
-        }
-
         private void settingXBee()
         {
-            setFlagAndWrite("+++");
-            while(waitCallBack == true) { }
+            serialPort1.Write("+++");
+            Thread.Sleep(1100);
+            serialPort1.Write("ATR1\r");
+            serialPort1.Write("ATBD7\r");
             serialPort1.Write("ATID " + textBox3.Text + "\r");
             serialPort1.Write("ATNJ FF\r");
 
             if(checkBox1.Checked == true)
             {
-                serialPort1.Write("ATCE 1\r");
+                serialPort1.Write("ATCE 0\r");
                 serialPort1.Write("ATDL FFFF\r");
                 serialPort1.Write("ATAP 2\r");
             }else if(checkBox2.Checked == true)
@@ -324,7 +258,6 @@ namespace settingXBee
                 serialPort1.Write("ATPS 1\r");
                 serialPort1.Write("ATD1 3\r");
                 serialPort1.Write("ATD2 5\r");
-                var random = new Random();
                 serialPort1.Write("ATNI"+node_id+"\r");
             }
 
@@ -332,24 +265,13 @@ namespace settingXBee
             rtb("XBee設定完了！！\n");
         }
 
-        private void setFlagAndWrite(string y){
-            waitCallBack = true;
-            serialPort1.Write(y);
-        }
-
         private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             SerialPort sp = (SerialPort)sender;
             string received_data = sp.ReadExisting();
 
-            if(received_data.IndexOf("\r\n") >= 0)
-            {
-                res(received_data);
-            }
-            if(received_data.Length > 1024)
-            {
-                received_data = string.Empty;
-            }
+            Console.WriteLine(received_data);
+
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -357,6 +279,11 @@ namespace settingXBee
             string CD = Directory.GetCurrentDirectory();
             string root = @CD + "\\data";
             System.Diagnostics.Process.Start(root);
+        }
+
+        static async void delay_ms(int ms)
+        {
+            await Task.Delay(ms);
         }
     }
 }

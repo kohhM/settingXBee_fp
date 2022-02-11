@@ -32,6 +32,8 @@ namespace settingXBee
             this.components = new System.ComponentModel.Container();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
@@ -44,10 +46,8 @@ namespace settingXBee
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.button3 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -59,7 +59,7 @@ namespace settingXBee
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(24, 17);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(74, 20);
             this.comboBox1.TabIndex = 0;
@@ -74,13 +74,29 @@ namespace settingXBee
             this.groupBox1.Controls.Add(this.checkBox1);
             this.groupBox1.Controls.Add(this.textBox2);
             this.groupBox1.Location = new System.Drawing.Point(11, 166);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(312, 123);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "XBee設定";
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(178, 40);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(99, 19);
+            this.textBox3.TabIndex = 6;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(176, 25);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(83, 12);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "PAN and IM ID:";
             // 
             // label2
             // 
@@ -96,7 +112,7 @@ namespace settingXBee
             // 
             this.checkBox3.AutoSize = true;
             this.checkBox3.Location = new System.Drawing.Point(20, 93);
-            this.checkBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkBox3.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(79, 16);
             this.checkBox3.TabIndex = 3;
@@ -108,7 +124,7 @@ namespace settingXBee
             // 
             this.checkBox2.AutoSize = true;
             this.checkBox2.Location = new System.Drawing.Point(20, 55);
-            this.checkBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkBox2.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(54, 16);
             this.checkBox2.TabIndex = 2;
@@ -120,7 +136,7 @@ namespace settingXBee
             // 
             this.checkBox1.AutoSize = true;
             this.checkBox1.Location = new System.Drawing.Point(20, 21);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(81, 16);
             this.checkBox1.TabIndex = 1;
@@ -131,7 +147,7 @@ namespace settingXBee
             // textBox2
             // 
             this.textBox2.Location = new System.Drawing.Point(178, 93);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(99, 19);
             this.textBox2.TabIndex = 0;
@@ -139,7 +155,7 @@ namespace settingXBee
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(89, 31);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(83, 19);
             this.textBox1.TabIndex = 3;
@@ -147,7 +163,7 @@ namespace settingXBee
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(122, 31);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(50, 28);
             this.button1.TabIndex = 4;
@@ -158,7 +174,7 @@ namespace settingXBee
             // richTextBox1
             // 
             this.richTextBox1.Location = new System.Drawing.Point(194, 11);
-            this.richTextBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.richTextBox1.Margin = new System.Windows.Forms.Padding(2);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
             this.richTextBox1.Size = new System.Drawing.Size(266, 151);
@@ -168,7 +184,7 @@ namespace settingXBee
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(342, 166);
-            this.button2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(118, 91);
             this.button2.TabIndex = 6;
@@ -202,6 +218,15 @@ namespace settingXBee
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "COM接続";
             // 
+            // comboBox2
+            // 
+            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Location = new System.Drawing.Point(24, 51);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(74, 20);
+            this.comboBox2.TabIndex = 5;
+            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.label3);
@@ -212,31 +237,6 @@ namespace settingXBee
             this.groupBox3.TabIndex = 9;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "建物群総称";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(176, 25);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(83, 12);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "PAN and IM ID:";
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(178, 40);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(99, 19);
-            this.textBox3.TabIndex = 6;
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(24, 51);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(74, 20);
-            this.comboBox2.TabIndex = 5;
             // 
             // button3
             // 
@@ -259,7 +259,7 @@ namespace settingXBee
             this.Controls.Add(this.button2);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.groupBox1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "SettingXBee";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
