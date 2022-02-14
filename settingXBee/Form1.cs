@@ -200,6 +200,11 @@ namespace settingXBee
                         {
                             rtb("XBee3と仮想シリアル通信を開始\n");
                             settingXBee();
+
+                            if(checkBox2.Checked == true)
+                            {
+                                writeMpy();
+                            }
                             
                         }
                         else
@@ -263,6 +268,39 @@ namespace settingXBee
 
             serialPort1.Write("ATCN\r");
             rtb("XBee設定完了！！\n");
+        }
+
+        private void writeMpy()
+        {
+            rtb("MicroPython書き込み開始\n");
+
+            serialPort1.Write("/cF");
+
+            serialPort1.Write("import xbee\r");
+            serialPort1.Write("try:\r");
+            serialPort1.Write("    xbee.transmit(xbee.ADDR_COORDINATOR, \"Hello XBee!\")\r");
+            serialPort1.Write("except Exception as e:\r");
+            serialPort1.Write("    print(\"Transmit failure: % s\" % str(e))\r");
+
+            /*
+            serialPort1.Write("from machine import Pin\r");
+            serialPort1.Write("import xbee\r");
+            serialPort1.Write("NI = str(xbee.atcmd(\"NI\"))\r");
+            serialPort1.Write("input_pin = Pin(\"D1\", Pin.IN, Pin.PULL_UP)\r");
+            serialPort1.Write("while True:\r");
+            serialPort1.Write("    if input_pin.value() == 0:\r");
+            serialPort1.Write("        sleep_ms = xbee.XBee.sleep_now(60000, True)\r");
+            serialPort1.Write("        if xbee.XBee.wake_reason() is xbee.PIN_WAKE:\r");
+            serialPort1.Write("            try:\r");
+            serialPort1.Write("                xbee.transmit(xbee.ADDR_COORDINATOR, NI + \"mdt\")\r");
+            serialPort1.Write("            except Exception as e:\r");
+            serialPort1.Write("                print(\"Transmit failure: \", str(e))\r");
+            */
+
+            serialPort1.Write("/cD");
+            Thread.Sleep(1100);
+            serialPort1.Write("y");
+            rtb("mpy書き込み終了\n");
         }
 
         private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
