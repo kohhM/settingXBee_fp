@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -201,9 +196,9 @@ namespace settingXBee
                             rtb("XBee3と仮想シリアル通信を開始\n");
                             settingXBee();
 
-                            if(checkBox2.Checked == true)
+                            if(checkBox3.Checked == true)
                             {
-                                writeMpy();
+                                //writeMpy();
                             }
                             
                         }
@@ -246,7 +241,7 @@ namespace settingXBee
 
             if(checkBox1.Checked == true)
             {
-                serialPort1.Write("ATCE 0\r");
+                serialPort1.Write("ATCE 1\r");
                 serialPort1.Write("ATDL FFFF\r");
                 serialPort1.Write("ATAP 2\r");
             }else if(checkBox2.Checked == true)
@@ -273,14 +268,16 @@ namespace settingXBee
         private void writeMpy()
         {
             rtb("MicroPython書き込み開始\n");
-
+            /*
             serialPort1.Write("/cF");
 
             serialPort1.Write("import xbee\r");
-            serialPort1.Write("try:\r");
-            serialPort1.Write("    xbee.transmit(xbee.ADDR_COORDINATOR, \"Hello XBee!\")\r");
-            serialPort1.Write("except Exception as e:\r");
-            serialPort1.Write("    print(\"Transmit failure: % s\" % str(e))\r");
+            serialPort1.Write("while True:\r");
+            serialPort1.Write("    try:\r");
+            serialPort1.Write("        xbee.transmit(xbee.ADDR_COORDINATOR, \"Hello XBee!\")\r");
+            serialPort1.Write("    except Exception as e:\r");
+            serialPort1.Write("        print(\"Transmit failure: % s\" % str(e))\r");
+            */
 
             /*
             serialPort1.Write("from machine import Pin\r");
